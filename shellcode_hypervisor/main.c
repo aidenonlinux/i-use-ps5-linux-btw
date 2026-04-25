@@ -1,12 +1,12 @@
-#include "main.h"
-#include "../include/config.h"
-#include "boot_linux.h"
-#include "utils.h"
+#include <sys/types.h>
 #include <cpuid.h>
 #include <machine/atomic.h>
 #include <machine/cpufunc.h>
 #include <stdint.h>
-#include <sys/types.h>
+#include "main.h"
+#include "../include/config.h"
+#include "boot_linux.h"
+#include "utils.h"
 
 __attribute__((section(".entry_point"), naked)) uint32_t main(void) {
 
@@ -31,7 +31,7 @@ __attribute__((section(".entry_point"), naked)) uint32_t main(void) {
                    "movq %%rsp, %%rbp \n\t"
                    :
                    : "r"(new_rsp)
-                   : "rsp", "rbp", "memory");
+                   : "rbp", "memory");
 
   entry();
 }

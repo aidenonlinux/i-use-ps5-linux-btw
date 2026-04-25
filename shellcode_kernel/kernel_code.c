@@ -117,8 +117,7 @@ static void patch_hv(void) {
   }
 
   // Install hv_shellcode 2
-  uint64_t hv_shellcode = cave_hv;
-  memcpy((void *)PHYS_TO_DMAP(hv_shellcode), shellcode_hypervisor,
+  memcpy((void *)PHYS_TO_DMAP(cave_hv_code), shellcode_hypervisor,
          shellcode_hypervisor_len);
 
   // Jump to shellcode final identity mapping
@@ -130,8 +129,8 @@ static void patch_hv(void) {
   // Update code cave in hv 1:1 region
   *(uint32_t *)(&shellcode_jmp[3]) = (uint32_t)args.hv_code_cave_pa;
 
-  // Just patch the VMEXIT handler directly, avoiding all checks (0x6282b45d)
-  memcpy(PHYS_TO_DMAP(args.hv_handle_vmexit_pa), shellcode_jmp,
+  // Just patch the VMEXIT handler directly, avoiding all checks
+  memcpy((void *)PHYS_TO_DMAP(args.hv_handle_vmexit_pa), shellcode_jmp,
          sizeof(shellcode_jmp));
 
   uint8_t shellcode_identity_and_jmp[] = {
@@ -149,7 +148,7 @@ static void patch_hv(void) {
   *(uint64_t *)(&shellcode_identity_and_jmp[15]) = cave_hv_code;
 
   // Install shellcode 1 to update CR3 and jump to main HV shellcode
-  memcpy(PHYS_TO_DMAP(args.hv_code_cave_pa), shellcode_identity_and_jmp,
+  memcpy((void *)PHYS_TO_DMAP(args.hv_code_cave_pa), shellcode_identity_and_jmp,
          sizeof(shellcode_identity_and_jmp));
 }
 
@@ -157,7 +156,7 @@ void boot_linux(void) {
 
   patch_hv();
 
-  memcpy((void *)PHYS_TO_DMAP(0xC0000), g_vbios, 0x10000);
+  memcpy((void *)PHYS_TO_DMAP(0xC0000), (void *)g_vbios, 0x10000);
 
   // Enable DP phys link.
   dp_enable_link_phy(4, 30);

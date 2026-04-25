@@ -99,7 +99,6 @@ uint64_t va_to_pa_custom(uint64_t va, uint64_t cr3_custom) {
     int shift = 39 - (level * 9);
     uint64_t idx = (va >> shift) & 0x1FF;
     uint64_t entry;
-    uint64_t entry_va = dmap + PAGE_PA(table_phys) + idx * 8;
 
     kread(dmap + PAGE_PA(table_phys) + idx * 8, &entry, sizeof(entry));
 
@@ -216,4 +215,36 @@ int pin_to_first_available_core(void) {
 void unpin(void) {
   uint64_t m[2] = {0xFFFF, 0};
   cpuset_setaffinity(3, 1, -1, 0x10, (const cpuset_t *)m);
+}
+
+void notify(const char *fmt, ...) {
+  static char buffer[2048]; 
+  va_list args;
+
+  va_start(args, fmt);
+  vsnprintf(buffer, sizeof(buffer), fmt, args);
+  va_end(args);
+
+  notify_internal(buffer);
+  printf(buffer);
+}
+
+void notify_internal(uint8_t *msg) {
+  struct {
+    char pad[45];
+    char msg[3075];
+  } req;
+  bzero(&req, sizeof(req));
+  uint64_t len =
+      strlen(msg) < (sizeof(req.msg) - 1) ? strlen(msg) : (sizeof(req.msg) - 1);
+  memcpy(req.msg, msg, len);
+  sceKernelSendNotificationRequest(0, &req, sizeof(req), 0);
+}
+
+void enter_rest_mode(void) {
+  void *event = NULL;
+  sceKernelOpenEventFlag(&event, "SceSystemStateMgrStatus");
+  sceKernelNotifySystemSuspendStart();
+  sceKernelSetEventFlag(event, 0x400);
+  sceKernelCloseEventFlag(&event);
 }

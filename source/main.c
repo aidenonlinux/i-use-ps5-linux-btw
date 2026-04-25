@@ -10,28 +10,31 @@
 int main(void) {
 
   if (setup_env()) {
-    printf("Something went wrong while initiating.\nPlease make sure your fw "
+    notify("Something went wrong while initiating.\nPlease make sure your fw "
            "is supported.");
     return -1;
   }
   if (hv_defeat()) {
-    printf("Something went wrong while defeating Hypervisor.\nPlease make sure "
+    notify("Something went wrong while defeating Hypervisor.\nPlease make sure "
            "your fw is supported.");
     return -1;
   }
 
   if (fetch_linux(&linux_i)) {
-    printf("Something went wrong while installing linux files.\n");
+    notify("Something went wrong while installing linux files.\n");
     return -1;
   }
 
   if (prepare_resume()) {
-    printf("Something went wrong while preparing resume.\n");
+    notify("Something went wrong while preparing resume.\n");
     return -1;
   }
 
-  printf("Everything done. Go to rest mode, wait for the orange light to stop "
+  notify("Finished preparation. Going to rest mode in 5 seconds.\nPlease wait for the orange light to stop "
          "blinking and then wakeup to Linux :)\n");
+
+  sleep(5);
+  enter_rest_mode();
 
   while (1) {
     sleep(30);
@@ -41,7 +44,7 @@ int main(void) {
 }
 
 int setup_env(void) {
-  printf("Welcome to ps5-linux-loader. We'll defeat HV and prepare the system "
+  notify("Welcome to ps5-linux-loader. We'll defeat HV and prepare the system "
          "to boot Linux on sleep resume.\n");
   if (set_offsets())
     return -1;
@@ -145,7 +148,7 @@ int prepare_resume(void) {
     }
   }
   if (offset == -1) {
-    printf("Could not find offset of args_ptr address - Aborting\n");
+    notify("Could not find offset of args_ptr address - Aborting\n");
   }
   kwrite64(dest_text + offset, dest_data);
 

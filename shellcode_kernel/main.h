@@ -13,11 +13,8 @@ uint64_t (*kernel_va_to_pa)(uint64_t va);
 uint32_t (*hv_iommu_set_buffers)(uint64_t cb2_pa, uint64_t cb3_pa,
                                  uint64_t eb_pa, uint64_t unk, int *n_devices);
 uint32_t (*hv_iommu_wait_completion)(void);
-void (*smp_rendezvous)(void (*setup_func)(void *), void (*action_func)(void *),
-                       void (*teardown_func)(void *), void *arg);
-void (*smp_rendezvous_cpus)(cpuset_t map, void (*setup_func)(void *),
-                            void (*action_func)(void *),
-                            void (*teardown_func)(void *), void *arg);
+void (*smp_rendezvous)(void (*setup_func)(void), void (*action_func)(void),
+                       void (*teardown_func)(void), void *arg);
 void (*smp_no_rendevous_barrier)(void);
 
 // We are being called instead of AcpiSetFirmwareWakingVector from
@@ -44,8 +41,7 @@ uint64_t rdmsr(uint32_t msr);
 
 uint32_t tmr_read(uint64_t dmap, uint32_t addr);
 void tmr_write(uint64_t dmap, uint32_t addr, uint32_t val);
-
-int tmr_relax(void);
+int tmr_disable(uint64_t dmap);
 
 // Command buffer MMIO offsets
 #define IOMMU_MMIO_CB_HEAD 0xa000
@@ -57,15 +53,16 @@ int tmr_relax(void);
 #define IOMMU_CMD_ENTRY_SIZE 0x10
 
 // Submit a single 16-byte command and wait for completion
-void iommu_submit_cmd(shellcode_kernel_args *args_ptr, uint64_t *cmd);
+void iommu_submit_cmd(volatile shellcode_kernel_args *args_ptr, uint64_t *cmd);
 // Write 8 bytes to a physical address using IOMMU completion wait store
-void iommu_write8_pa(shellcode_kernel_args *args_ptr, uint64_t pa,
+void iommu_write8_pa(volatile shellcode_kernel_args *args_ptr, uint64_t pa,
                      uint64_t val);
 
-void patch_vmcb(shellcode_kernel_args *args_ptr);
+void patch_vmcb(volatile shellcode_kernel_args *args_ptr);
 
 #define NULL (void *)0
 void vmmcall_dummy(void);
 void halt(void);
+void init_global_pointers(volatile shellcode_kernel_args *args_ptr);
 
 #endif

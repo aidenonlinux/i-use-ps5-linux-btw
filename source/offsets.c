@@ -2,7 +2,6 @@
 
 offset_list off_0300 = {
     .PMAP_STORE = 0x3D8E218,
-    .HV_BSS_OFF = 0x16000,
     .HV_VCPU_ARRAY_OFF = 0x5D0,
     .HV_VCPU_STRIDE = 0x320,
     .HV_VCPU_VMCB_PTR = 0x08,
@@ -35,7 +34,6 @@ offset_list off_0300 = {
 
 offset_list off_0310 = {
     .PMAP_STORE = 0x3D8E218,
-    .HV_BSS_OFF = 0x16000,
     .HV_VCPU_ARRAY_OFF = 0x5D0,
     .HV_VCPU_STRIDE = 0x320,
     .HV_VCPU_VMCB_PTR = 0x08,
@@ -68,7 +66,6 @@ offset_list off_0310 = {
 
 offset_list off_0320 = {
     .PMAP_STORE = 0x3D8E218,
-    .HV_BSS_OFF = 0x16000,
     .HV_VCPU_ARRAY_OFF = 0x5D0,
     .HV_VCPU_STRIDE = 0x320,
     .HV_VCPU_VMCB_PTR = 0x08,
@@ -101,7 +98,6 @@ offset_list off_0320 = {
 
 offset_list off_0321 = {
     .PMAP_STORE = 0x3D8E218,
-    .HV_BSS_OFF = 0x16000,
     .HV_VCPU_ARRAY_OFF = 0x5D0,
     .HV_VCPU_STRIDE = 0x320,
     .HV_VCPU_VMCB_PTR = 0x08,
@@ -134,7 +130,6 @@ offset_list off_0321 = {
 
 offset_list off_0400 = {
     .PMAP_STORE = 0x3E57A78,
-    .HV_BSS_OFF = 0x14000,
     .HV_VCPU_ARRAY_OFF = 0x5D0,
     .HV_VCPU_STRIDE = 0x320,
     .HV_VCPU_VMCB_PTR = 0x08,
@@ -167,7 +162,6 @@ offset_list off_0400 = {
 
 offset_list off_0402 = {
     .PMAP_STORE = 0x3E57A78,
-    .HV_BSS_OFF = 0x14000,
     .HV_VCPU_ARRAY_OFF = 0x5D0,
     .HV_VCPU_STRIDE = 0x320,
     .HV_VCPU_VMCB_PTR = 0x08,
@@ -200,7 +194,6 @@ offset_list off_0402 = {
 
 offset_list off_0403 = {
     .PMAP_STORE = 0x3E57A78,
-    .HV_BSS_OFF = 0x14000,
     .HV_VCPU_ARRAY_OFF = 0x5D0,
     .HV_VCPU_STRIDE = 0x320,
     .HV_VCPU_VMCB_PTR = 0x08,
@@ -233,7 +226,6 @@ offset_list off_0403 = {
 
 offset_list off_0450 = {
     .PMAP_STORE = 0x3E57A78,
-    .HV_BSS_OFF = 0x14000,
     .HV_VCPU_ARRAY_OFF = 0x5D0,
     .HV_VCPU_STRIDE = 0x320,
     .HV_VCPU_VMCB_PTR = 0x08,
@@ -266,7 +258,6 @@ offset_list off_0450 = {
 
 offset_list off_0451 = {
     .PMAP_STORE = 0x3E57A78,
-    .HV_BSS_OFF = 0x14000,
     .HV_VCPU_ARRAY_OFF = 0x5D0,
     .HV_VCPU_STRIDE = 0x320,
     .HV_VCPU_VMCB_PTR = 0x08,

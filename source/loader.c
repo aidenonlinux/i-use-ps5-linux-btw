@@ -91,7 +91,7 @@ long find_and_get_size_of_file(const char *filename, char *found_path) {
     snprintf(full_path, sizeof(full_path), "%s%s", file_paths[i], filename);
 
     if (stat(full_path, &st) == 0) {
-      printf("File '%s' found in '%s'\n", filename, file_paths[i]);
+      notify("File '%s' found in '%s'\n", filename, file_paths[i]);
       strcpy(found_path, full_path);
       return st.st_size;
     }
@@ -111,7 +111,7 @@ static int find_and_read_file(const char *filename, void *buf, size_t bufsize) {
     snprintf(full_path, sizeof(full_path), "%s%s", file_paths[i], filename);
 
     if (stat(full_path, &st) == 0) {
-      printf("File '%s' found in '%s'\n", filename, file_paths[i]);
+      notify("File '%s' found in '%s'\n", filename, file_paths[i]);
       return read_file(full_path, buf, bufsize);
     }
   }
@@ -139,9 +139,6 @@ static void trim_newline(char *s) {
 }
 
 int fetch_linux(struct linux_info *info) {
-  uintptr_t self_pmap = getpmap(kernel_get_proc(getpid()));
-  uintptr_t self_pml4 = kread64(self_pmap + 0x20);
-
   uintptr_t syscore_pmap = getpmap(kernel_get_proc(MINI_SYSCORE_PID));
   uintptr_t syscore_pml4 = kread64(syscore_pmap + 0x20);
 
@@ -150,7 +147,7 @@ int fetch_linux(struct linux_info *info) {
 
   size_t bzimage_size = find_and_get_size_of_file("bzImage", bzimage_path);
   if (bzimage_size < 0) {
-    printf("File bzImage not found at default paths - Aborting\n");
+    notify("File bzImage not found at default paths - Aborting\n");
     return -1;
   }
 
@@ -158,20 +155,20 @@ int fetch_linux(struct linux_info *info) {
       mmap(NULL, ALIGN_UP(bzimage_size, 0x1000), PROT_READ | PROT_WRITE,
            MAP_SHARED | MAP_ANONYMOUS, -1, 0);
   if (bzimage == MAP_FAILED) {
-    printf("[-] Error could not allocate bzimage.\n");
+    notify("[-] Error could not allocate bzimage.\n");
     return -1;
   }
 
   bzimage_size =
       read_file(bzimage_path, bzimage, ALIGN_UP(bzimage_size, 0x1000));
   if (bzimage_size < 0) {
-    printf("Something went wrong while reading bzImage - Aborting\n");
+    notify("Something went wrong while reading bzImage - Aborting\n");
     return -1;
   }
 
   size_t initrd_size = find_and_get_size_of_file("initrd.img", initrd_path);
   if (bzimage_size < 0) {
-    printf("File bzImage not found at default paths - Aborting\n");
+    notify("File bzImage not found at default paths - Aborting\n");
     return -1;
   }
 
@@ -179,13 +176,13 @@ int fetch_linux(struct linux_info *info) {
       mmap(NULL, ALIGN_UP(initrd_size, 0x1000), PROT_READ | PROT_WRITE,
            MAP_SHARED | MAP_ANONYMOUS, -1, 0);
   if (initrd == MAP_FAILED) {
-    printf("[-] Error could not allocate initrd.\n");
+    notify("[-] Error could not allocate initrd.\n");
     return -1;
   }
 
   initrd_size = read_file(initrd_path, initrd, ALIGN_UP(initrd_size, 0x1000));
   if (initrd_size < 0) {
-    printf("Something went wrong while reading initrd - Aborting\n");
+    notify("Something went wrong while reading initrd - Aborting\n");
     return -1;
   }
 

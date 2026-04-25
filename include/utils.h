@@ -9,6 +9,10 @@
 
 int sceKernelGetCurrentCpu();
 int sceKernelSendNotificationRequest(int, void *, size_t, int);
+int sceKernelOpenEventFlag(void*, const char *);
+int sceKernelNotifySystemSuspendStart(void);
+int sceKernelSetEventFlag(void *, int);
+int sceKernelCloseEventFlag(void*);
 
 typedef struct _sysent {
   uint32_t n_arg;
@@ -142,16 +146,9 @@ uint64_t get_pml4(uint64_t pmap);
 int pin_to_core(int n);
 int pin_to_first_available_core(void);
 void unpin(void);
-static inline void notify(uint8_t *msg) {
-  struct {
-    char pad[45];
-    char msg[3075];
-  } req;
-  uint64_t len =
-      strlen(msg) < (sizeof(req.msg) - 1) ? strlen(msg) : (sizeof(req.msg) - 1);
-  memcpy(req.msg, msg, len);
-  sceKernelSendNotificationRequest(0, &req, sizeof(req), 0);
-}
+void notify(const char *fmt, ...);
+void notify_internal(uint8_t *msg);
+void enter_rest_mode(void);
 
 #if DEBUG
 #define DEBUG_PRINT(fmt, ...) printf(fmt, ##__VA_ARGS__)
