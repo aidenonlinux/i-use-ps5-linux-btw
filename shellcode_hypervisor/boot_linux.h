@@ -7,8 +7,8 @@
 #define VM_CR_R_INIT (1ULL << 1) // Bit 1: Intercept INIT
 
 // // MTRRs (Memory Type Range Registers)
-#define MSR_MTRR4kBase 0x00000268  // MSR_MTRRfix4K_C0000 (primer registro 4k)
-#define MSR_MTRRVarBase 0x00000200 // MTRR variable base (MSR_MTRRphysBase0)
+#define MSR_MTRR4kBase 0x00000268
+#define MSR_MTRRVarBase 0x00000200
 
 #define VRAM_BASE (0x470000000 - info.vram_size)
 

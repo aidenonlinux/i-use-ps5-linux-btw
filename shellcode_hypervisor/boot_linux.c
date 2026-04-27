@@ -131,7 +131,6 @@ void boot_linux(void) {
 }
 
 void entry(void) {
-
   disable_intr();
 
   // Set global interrupt flag.
@@ -145,9 +144,7 @@ void entry(void) {
 
   // Clean up mtrr.
   wrmsr(MSR_MTRR4kBase + 0, 0);
-
   wrmsr(MSR_MTRR4kBase + 1, 0);
-
   wrmsr(MSR_MTRRVarBase + 7 * 2 + 1, 0);
 
   atomic_add_32(&exited_cpus, 1);
