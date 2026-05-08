@@ -42,6 +42,7 @@ struct linux_info {
   size_t initrd_size;
   size_t vram_size;
   char cmdline[2048];
+  int kit_type;
   uintptr_t linux_info; // PA of linux_info
 };
 
@@ -155,5 +156,18 @@ void enter_rest_mode(void);
 #else
 #define DEBUG_PRINT(fmt, ...)
 #endif
+
+
+bool if_exists(const char* path);
+bool sceKernelIsTestKit(void);
+bool sceKernelIsDevKit(void);
+
+enum kit_type {
+    KIT_RETAIL,
+    KIT_TESTKIT,
+    KIT_DEVKIT
+};
+
+enum kit_type get_kit_type(void);
 
 #endif

@@ -220,6 +220,7 @@ int fetch_linux(struct linux_info *info) {
   info->initrd_size = initrd_size;
   info->vram_size = vram_size;
   strcpy(info->cmdline, cmdline);
+  info->kit_type = (int) get_kit_type();
 
   uint64_t page = alloc_page();
   kwrite(pa_to_dmap(page), info, sizeof(struct linux_info));

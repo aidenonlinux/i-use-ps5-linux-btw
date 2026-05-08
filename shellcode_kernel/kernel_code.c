@@ -46,6 +46,7 @@ struct linux_info {
   size_t initrd_size;
   size_t vram_size;
   char cmdline[2048];
+  int kit_type;
 };
 
 static struct linux_info info;

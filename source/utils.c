@@ -6,6 +6,7 @@
 #include <sys/param.h>
 #include <sys/proc.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 /* Global Variables */
 offset_list env_offset;
@@ -247,4 +248,32 @@ void enter_rest_mode(void) {
   sceKernelNotifySystemSuspendStart();
   sceKernelSetEventFlag(event, 0x400);
   sceKernelCloseEventFlag(&event);
+}
+
+
+// Kit type by EchoStretch
+bool if_exists(const char* path) {
+  struct stat st;
+  return stat(path, &st) == 0;
+}
+
+bool sceKernelIsTestKit(void) {
+  return if_exists("/system/priv/lib/libSceDeci5Ttyp.sprx");
+}
+
+bool sceKernelIsDevKit(void) {
+  return if_exists("/system/priv/lib/libSceDeci5Dtracep.sprx");
+}
+
+enum kit_type get_kit_type(void) {
+  if (sceKernelIsDevKit()) {
+    notify("DevKit detected\n");
+    return KIT_DEVKIT;
+  }
+  if (sceKernelIsTestKit()) {
+    notify("TestKit detected\n");
+    return KIT_TESTKIT;
+  }
+  notify("Retail console detected\n");
+  return KIT_RETAIL;
 }

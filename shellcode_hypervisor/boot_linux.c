@@ -12,6 +12,7 @@ struct linux_info {
   size_t initrd_size;
   size_t vram_size;
   char cmdline[2048];
+  int kit_type;
 };
 
 static struct linux_info info;
@@ -88,8 +89,16 @@ static void e820_memory_setup(struct boot_params *bp) {
   append_e820_table(bp, 0x0f0000000, 0x0f8000000, E820_TYPE_RESERVED);
   append_e820_table(bp, 0x100000000, VRAM_BASE, E820_TYPE_RAM);
   append_e820_table(bp, VRAM_BASE, 0x470000000, E820_TYPE_RESERVED); // VRAM
-  append_e820_table(bp, 0x470000000, 0x47f300000, E820_TYPE_RAM);
-  append_e820_table(bp, 0x47f300000, 0x480000000, E820_TYPE_RESERVED);
+
+  // DevKits have 32GB
+  if (info.kit_type != KIT_DEVKIT) {
+    append_e820_table(bp, 0x470000000, 0x47f300000, E820_TYPE_RAM);
+    append_e820_table(bp, 0x47f300000, 0x480000000, E820_TYPE_RESERVED);
+  }
+  else {
+    append_e820_table(bp, 0x470000000, 0x87f300000, E820_TYPE_RAM);
+    append_e820_table(bp, 0x87f300000, 0x880000000, E820_TYPE_RESERVED);
+  }
 }
 
 void boot_linux(void) {
@@ -124,7 +133,7 @@ void boot_linux(void) {
 
   memcpy((void *)kernel_pa, (void *)(info.bzimage + setup_size), kernel_size);
 
-  // printf("This is kernel_pa: "); print_val64(kernel_pa); printf("\n");
+
   void (*startup_64)(uint64_t physaddr, struct boot_params *bp) =
       (void *)(kernel_pa + 0x200);
   startup_64(kernel_pa, bp);
