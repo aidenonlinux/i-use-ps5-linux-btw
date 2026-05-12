@@ -15,7 +15,7 @@ endif
 CFLAGS  = -O2 -fno-stack-protector -ffreestanding -nostdlib -m64 -I$(PS5_PAYLOAD_SDK)/target/include
 LDFLAGS = -T linker.ld
 TARGET  = shellcode_kernel.elf
-TEXT_BIN = shellcode_text.bin
+TEXT_BIN = shellcode_kernel.bin
 
 SRC = main.c utils.c kernel_code.c
 OBJ = $(SRC:.c=.o)
@@ -37,4 +37,4 @@ clean:
 	rm -f $(OBJ) $(TARGET) $(TEXT_BIN) $(dump)
 
 $(dump): $(TEXT_BIN)
-	python3 bin_to_c_kernel.py $(TEXT_BIN)
+	xxd -i $(TEXT_BIN) > $(dump)

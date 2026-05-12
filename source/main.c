@@ -1,5 +1,6 @@
 #include "main.h"
 #include "../shellcode_kernel/shellcode_kernel.h"
+#include "../shellcode_kernel/shellcode_kernel_args.h"
 #include "hv_defeat.h"
 #include "loader.h"
 #include "offsets.h"
@@ -74,13 +75,13 @@ int prepare_resume(void) {
       ktext + env_offset.KERNEL_DATA_CAVE; // For arguments only, rest of .data
                                            // variables are in shellcode
 
-  uint64_t sz = shellcode_kernel_text_len;
+  uint64_t sz = shellcode_kernel_bin_len;
 
   uint32_t CHUNK = 0x1000;
   uint64_t written = 0;
   while (written < sz) {
     uint32_t n = (sz - written > CHUNK) ? CHUNK : (uint32_t)(sz - written);
-    kernel_copyin(&shellcode_kernel_text[written], dest_text + written, n);
+    kernel_copyin(&shellcode_kernel_bin[written], dest_text + written, n);
     written += n;
   }
   DEBUG_PRINT("  copied %d bytes to text cave\n", sz);
@@ -142,7 +143,7 @@ int prepare_resume(void) {
   // overwrite it with proper VA in .data for arguments
   int offset = -1;
   for (int i = 0; i < 0x40; i++) {
-    if (*(uint64_t *)((uint64_t)shellcode_kernel_text + i) ==
+    if (*(uint64_t *)((uint64_t)shellcode_kernel_bin + i) ==
         0x11AA11AA11AA11AA) {
       offset = i;
       break;

@@ -36,4 +36,4 @@ clean:
 	rm -f $(OBJ) $(TARGET) $(TEXT_BIN) $(dump)
 
 $(dump): $(TEXT_BIN)
-	python3 bin_to_c_hypervisor.py $(TEXT_BIN)
+	xxd -i $(TEXT_BIN) > $(dump)

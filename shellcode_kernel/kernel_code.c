@@ -1,8 +1,10 @@
 #include "kernel_code.h"
 #include "../include/config.h"
 #include "../shellcode_hypervisor/shellcode_hypervisor.h"
+#include "../shellcode_hypervisor/shellcode_hypervisor_args.h"
 #include "shellcode_kernel_args.h"
 #include "utils.h"
+#include <unistd.h>
 
 #define DIG1TRANSMITTERCONTROL 0x4c
 
@@ -118,8 +120,8 @@ static void patch_hv(void) {
   }
 
   // Install hv_shellcode 2
-  memcpy((void *)PHYS_TO_DMAP(cave_hv_code), shellcode_hypervisor,
-         shellcode_hypervisor_len);
+  memcpy((void *)PHYS_TO_DMAP(cave_hv_code), shellcode_hypervisor_bin,
+         shellcode_hypervisor_bin_len);
 
   // Jump to shellcode final identity mapping
   uint8_t shellcode_jmp[] = {
