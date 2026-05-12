@@ -1,6 +1,7 @@
 #include "loader.h"
 #include "config.h"
 #include "firmware.h"
+#include "linux.h"
 #include "utils.h"
 #include <errno.h>
 #include <fcntl.h>

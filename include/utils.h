@@ -35,17 +35,6 @@ typedef struct __flat_pmap {
   uint64_t pm_cr3;
 } flat_pmap;
 
-struct linux_info {
-  uintptr_t bzimage;
-  size_t bzimage_size;
-  uintptr_t initrd;
-  size_t initrd_size;
-  size_t vram_size;
-  char cmdline[2048];
-  int kit_type;
-  uintptr_t linux_info; // PA of linux_info
-};
-
 /** These vars are global for the payload to simplify things */
 extern offset_list env_offset;    // Defined on utils.c
 extern uint64_t ktext;            // Defined on utils.c

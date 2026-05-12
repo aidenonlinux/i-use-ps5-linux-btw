@@ -2,6 +2,7 @@
 #include "../shellcode_kernel/shellcode_kernel.h"
 #include "../shellcode_kernel/shellcode_kernel_args.h"
 #include "hv_defeat.h"
+#include "linux.h"
 #include "loader.h"
 #include "offsets.h"
 #include "utils.h"

@@ -1,4 +1,5 @@
 #include "utils.h"
+#include "linux.h"
 #include "offsets.h"
 #include <ps5/kernel.h>
 #include <stdio.h>

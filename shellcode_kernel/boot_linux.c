@@ -1,7 +1,8 @@
-#include "kernel_code.h"
+#include "boot_linux.h"
 #include "../include/config.h"
-#include "../shellcode_hypervisor/shellcode_hypervisor.h"
-#include "../shellcode_hypervisor/shellcode_hypervisor_args.h"
+#include "../include/linux.h"
+#include "../shellcode_hv/shellcode_hv.h"
+#include "../shellcode_hv/shellcode_hv_args.h"
 #include "shellcode_kernel_args.h"
 #include "utils.h"
 #include <unistd.h>
@@ -39,16 +40,6 @@ struct dig_transmitter_control_parameters_v1_6 {
   uint8_t connobj_id;
   uint8_t reserved;
   uint32_t reserved1;
-};
-
-struct linux_info {
-  uintptr_t bzimage;
-  size_t bzimage_size;
-  uintptr_t initrd;
-  size_t initrd_size;
-  size_t vram_size;
-  char cmdline[2048];
-  int kit_type;
 };
 
 static struct linux_info info;
@@ -119,8 +110,8 @@ static void patch_hv(void) {
   }
 
   // Install hv_shellcode 2
-  memcpy((void *)PHYS_TO_DMAP(cave_hv_code), shellcode_hypervisor_bin,
-         shellcode_hypervisor_bin_len);
+  memcpy((void *)PHYS_TO_DMAP(cave_hv_code), shellcode_hv_bin,
+         shellcode_hv_bin_len);
 
   // Jump to shellcode final identity mapping
   uint8_t shellcode_jmp[] = {

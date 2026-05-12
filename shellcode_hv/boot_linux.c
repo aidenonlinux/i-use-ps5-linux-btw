@@ -1,19 +1,9 @@
 #include "boot_linux.h"
 #include "../include/config.h"
-#include "linux.h"
+#include "../include/linux.h"
 #include "utils.h"
 #include <stddef.h>
 #include <stdint.h>
-
-struct linux_info {
-  uintptr_t bzimage;
-  size_t bzimage_size;
-  uintptr_t initrd;
-  size_t initrd_size;
-  size_t vram_size;
-  char cmdline[2048];
-  int kit_type;
-};
 
 static struct linux_info info;
 

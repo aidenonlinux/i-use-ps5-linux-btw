@@ -14,9 +14,9 @@ OBJCOPY = objcopy
 endif
 CFLAGS  = -O2 -fno-stack-protector -ffreestanding -nostdlib -fcf-protection=none -m64 -I$(PS5_PAYLOAD_SDK)/target/include
 LDFLAGS = -T linker.ld
-TARGET  = shellcode_hypervisor.elf
-TEXT_BIN = shellcode_hypervisor.bin
-dump = shellcode_hypervisor.h
+TARGET  = shellcode_hv.elf
+TEXT_BIN = shellcode_hv.bin
+dump = shellcode_hv.h
 
 SRC = main.c utils.c boot_linux.c
 OBJ = $(SRC:.c=.o)

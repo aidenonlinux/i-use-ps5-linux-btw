@@ -1,7 +1,7 @@
 #ifndef __LINUX_H__
 #define __LINUX_H__
 
-#include <stdint.h>
+#include <unistd.h>
 
 #define X86_SUBARCH_PS5 5
 
@@ -103,5 +103,16 @@ struct boot_params {
   uint8_t eddbuf[0x1ec];                                        // 0xd00
   uint8_t _pad9[276];                                           // 0xeec
 } __attribute__((packed));
+
+struct linux_info {
+  uintptr_t linux_info; // PA of linux_info
+  uintptr_t bzimage;
+  size_t bzimage_size;
+  uintptr_t initrd;
+  size_t initrd_size;
+  size_t vram_size;
+  int kit_type;
+  char cmdline[2048];
+};
 
 #endif

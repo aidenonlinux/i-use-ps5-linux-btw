@@ -1,5 +1,5 @@
-#ifndef KERNEL_CODE_H
-#define KERNEL_CODE_H
+#ifndef BOOT_LINUX_H
+#define BOOT_LINUX_H
 
 #include <stdint.h>
 

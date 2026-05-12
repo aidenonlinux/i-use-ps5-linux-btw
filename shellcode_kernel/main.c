@@ -1,5 +1,5 @@
 #include "main.h"
-#include "kernel_code.h"
+#include "boot_linux.h"
 #include "utils.h"
 #include <stdint.h>
 

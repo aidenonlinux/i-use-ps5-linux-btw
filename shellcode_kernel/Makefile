@@ -17,7 +17,7 @@ LDFLAGS = -T linker.ld
 TARGET  = shellcode_kernel.elf
 TEXT_BIN = shellcode_kernel.bin
 
-SRC = main.c utils.c kernel_code.c
+SRC = main.c utils.c boot_linux.c
 OBJ = $(SRC:.c=.o)
 
 dump = shellcode_kernel.h
