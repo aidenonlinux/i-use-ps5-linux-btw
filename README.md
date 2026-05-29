@@ -1,6 +1,6 @@
 # ps5-linux
 
-**ps5-linux** leverages a patched HV vulnerabilities to transform your PS5 Phat console running **3.00-6.02 firmwares** into a highly capable Linux PC, unlocking its full hardware potential for desktop use. Powered by 8 CPU cores (16 threads) at **3.5 GHz** and a GPU at **2.23 GHz**, it provides enough performance to run Steam games and various emulators with impressive fluidity.
+**ps5-linux** leverages patched HV vulnerabilities to transform your PS5 Phat console running **3.00-6.02 firmwares** into a highly capable Linux PC, unlocking its full hardware potential for desktop use. Powered by 8 CPU cores (16 threads) at **3.5 GHz** and a GPU at **2.23 GHz**, it provides enough performance to run Steam games and various emulators with impressive fluidity.
 
 Features:
 
@@ -145,11 +145,12 @@ Send the payload with your `$PS5IP` (shown on the page):
 socat -t 99999999 - TCP:$PS5IP:9021 < ps5-linux-loader.elf
 ```
 
-If all is successful, the payload will automatically go into rest mode. Wait until the orange LED stops blinking and becomes static. Only then, press the power button again to boot your PS5 into Linux. If the boot is successful, **the LED should turn white**. If it boots back into PS5 OS, then it's because you pressed the power button too early. Or, you did not enable rest mode features as described above.
+If all is successful, the payload will automatically go into rest mode. Wait until the orange LED stops blinking and becomes static. Only then, press the power button again to boot your PS5 into Linux. If the boot is successful, **the LED should turn white**. If it boots back into PS5 OS, then it's because you pressed the power button too early. Or, you did not enable rest mode features as described above. If it freezes instead of going into rest mode, then it is likely because you have etahen/kstuff enabled, which is incompatible. Disable them.
 
 If the LED is white, but you still have a blackscreen then:
 
 - Try removing `video=DP-1:1920x1080@60` line in cmdline.txt.
+- Try setting HDCP on or off (try both).
 - Try different monitors or capture cards, ideally with different resolutions. Currently, some monitors have issues.
 - Try setting `amdgpu.force_1080p=1` in `cmdline.txt` in the FAT32 partition of the USB drive.
 
