@@ -11,7 +11,8 @@ Features:
 - Internal Bluetooth usable via custom xhci driver
 - Ethernet port usable via custom gbe driver
 
-![Alt Text](logo.webp)
+![this is a logo](logo.webp)
+made this logo by hand in canva :)
 
 ## PS5 firmware
 
