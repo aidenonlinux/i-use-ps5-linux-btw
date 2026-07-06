@@ -1,6 +1,6 @@
-# i use ps5 linux btw
+# PS5 Arch
 
-**i use ps5 linux btw** leverages patched HV vulnerabilities to transform your **PS5 Phat and Slim** console running **3.00-7.61 firmwares** into a highly capable Linux PC, unlocking its full hardware potential for desktop use. Powered by 8 CPU cores (16 threads) at **3.5 GHz** and a GPU at **2.23 GHz**, it provides enough performance to run Steam games and various emulators with impressive fluidity.
+**PS5 Arch** leverages patched HV vulnerabilities to transform your **PS5 Phat and Slim** console running **3.00-7.61 firmwares** into a highly capable Linux PC, unlocking its full hardware potential for desktop use. Powered by 8 CPU cores (16 threads) at **3.5 GHz** and a GPU at **2.23 GHz**, it provides enough performance to run Steam games and various emulators with impressive fluidity.
 
 Features:
 
@@ -15,7 +15,7 @@ Features:
 
 ## PS5 firmware
 
-*i use ps5 linux btw* is only supported on PS5 Phat and Slim on the following firmwares:
+*PS5 Arch* is only supported on PS5 Phat and Slim on the following firmwares:
 
 - **3.00**, **3.10**, **3.20**, **3.21** without M.2 support
 - **4.00**, **4.02**, **4.03**, **4.50**, **4.51** with M.2 support
@@ -29,7 +29,7 @@ If you are on firmwares in-between or you want to update to a specific firmware,
 
 ## Hardwares
 
-To run *i use ps5 linux btw*, you need some required and optional hardwares:
+To run *PS5 Arch*, you need some required and optional hardwares:
 
 - **Required**: USB drive with minimum 64GB (ideally external SSD) to install and run Linux.
 - **Required**: USB keyboard/mouse (dongles supported too).
@@ -57,7 +57,7 @@ If you reset your PS5 settings or reinstall the FW, you need to reapply these se
 
 #### Pre-built images
 
-You can download them from [i use ps5 linux btw-image](https://github.com/ps5-linux/ps5-linux-image/releases/tag/latest). Recommended is `ps5-ubuntu2604.img.xz`. Unpack the `.xz` file.
+You can download them from original --> [ps5-linux-image](https://github.com/ps5-linux/ps5-linux-image/releases/tag/latest). or here: [arch-ps5](https://github.com/aidenonlinux/PS5_ARCH_IMAGE/releases/tag/y). If you download from the original link, the recommended is `ps5-ubuntu2604.img.xz` instead of arch. Unpack the `.xz` file.
 
 #### Build your own image
 
@@ -67,7 +67,7 @@ If you use Windows,  run this in PowerShell or CMD as administrator to install W
 wsl --install
 ```
 
-Install docker:
+(Debian/ubuntu etc.) Install docker:
 
 ```bash
 sudo apt update
@@ -76,12 +76,22 @@ sudo service docker start
 sudo usermod -aG docker $USER
 ```
 
+(Arch Linux/CachyOS, Archcraft etc)
+
+```bash
+sudo pacman -Syu
+sudo pacman -S
+sudo service docker start
+sudo usermod -aG docker $USER
+```
+
 Then clone and build:
+
 
 ```bash
 cd ~/
-git clone https://github.com/i use ps5 linux btw/i use ps5 linux btw-image
-cd i use ps5 linux btw-image
+git clone https://github.com/PS5 Arch/PS5 Arch-image
+cd PS5 Arch-image
 chmod +x ./build_image.sh
 ./build_image.sh --distro ubuntu2604
 ```
@@ -134,18 +144,18 @@ If you're on ARM64 Linux, first install the x86-64 cross-compilation tools befor
 sudo apt install gcc-x86-64-linux-gnu binutils-x86-64-linux-gnu
 ```
 
-Either download [i use ps5 linux btw-loader.elf](https://github.com/i use ps5 linux btw/i use ps5 linux btw-loader/releases/), or install [ps5-payload-sdk](https://github.com/ps5-payload-dev/sdk) and compile it yourself:
+Either download [ps5-linux-loader.elf](https://github.com/ps5-linux/ps5-linux-loader/releases/), or install [ps5-payload-sdk](https://github.com/ps5-payload-dev/sdk) and compile it yourself:
 
 ```bash
-git clone https://github.com/i use ps5 linux btw/i use ps5 linux btw-loader
-cd i use ps5 linux btw-loader
+git clone https://github.com/ps5-linux/ps5-linux-loader
+cd ps5-linux-loader
 make
 ```
 
 Send the payload with your `$PS5IP` (shown on the page):
 
 ```bash
-socat -t 99999999 - TCP:$PS5IP:9021 < i use ps5 linux btw-loader.elf
+socat -t 99999999 - TCP:$PS5IP:9021 < ps5-linux-loader.elf
 ```
 
 If all is successful, the payload will automatically go into rest mode. Wait until the orange LED stops blinking and becomes static. Only then, press the power button again to boot your PS5 into Linux. If the boot is successful, **the LED should turn white**. If it boots back into PS5 OS, then it's because you pressed the power button too early. Or, you did not enable rest mode features as described above. If it freezes instead of going into rest mode, then it is likely because you have etahen/kstuff enabled, which is incompatible. Disable them.
@@ -181,7 +191,14 @@ Then, there are certain settings and commands we recommend doing:
    sudo snap install firefox
    ```
 
-5. Update mesa:
+   *You can also install Chromium if you want by:*
+
+   ```bash
+   sudo snap install chromium
+   ```
+   
+
+6. Update mesa:
 
    ```bash
    sudo snap refresh mesa-2404 --channel=latest/edge
@@ -190,20 +207,20 @@ Then, there are certain settings and commands we recommend doing:
    sudo apt upgrade
    ```
 
-6. Clone our [i use ps5 linux btw-tools](https://github.com/i use ps5 linux btw/i use ps5 linux btw-tools):
+7. Clone our [ps5-linux-tools](https://github.com/ps5-linux/ps5-linux-tools):
 
    ```bash
    sudo apt install zlib1g-dev
-   git clone https://github.com/i use ps5 linux btw/i use ps5 linux btw-tools
-   cd i use ps5 linux btw-tools
+   git clone https://github.com/ps5-linux/ps5-linux-tools
+   cd ps5-linux-tools
    make
    ```
 
-7. If you have a Marvell WLAN chip (`lspci -nn` shows `40:00.7 Ethernet controller [0200]: Marvell Technology Group Ltd. Device [1b4b:2b56] (rev 02)`), then you can install the WLAN driver:
+8. If you have a Marvell WLAN chip (`lspci -nn` shows `40:00.7 Ethernet controller [0200]: Marvell Technology Group Ltd. Device [1b4b:2b56] (rev 02)`), then you can install the WLAN driver:
 
    ```bash
-   git clone https://github.com/i use ps5 linux btw/i use ps5 linux btw-mwifiex
-   cd i use ps5 linux btw-mwifiex
+   git clone https://github.com/ps5-linux/ps5-linux-mwifiex
+   cd ps5-linux-mwifiex
    sudo ./install.sh
    ```
 
@@ -216,7 +233,7 @@ You can use a M.2 SSD exclusively for Linux (which means you cannot use it for P
 3. Boot Linux on your PS5 and run these commands to initialize your M.2:
 
 ```bash
-cd i use ps5 linux btw-tools
+cd ps5-linux-tools
 sudo ./m2_init
 ```
 
@@ -225,7 +242,7 @@ sudo ./m2_init
 6. Copy the `ps5-ubuntu2604.img` image that you built during installation or rebuild it on your PS5. Then, install it onto your M.2:
 
 ```bash
-cd i use ps5 linux btw-tools
+cd ps5-linux-tools
 chmod +x ./m2_install.sh
 sudo ./m2_install.sh --install $PATH_TO_YOUR_IMG
 ```
@@ -233,7 +250,7 @@ sudo ./m2_install.sh --install $PATH_TO_YOUR_IMG
 Now, you can boot into Linux on your M.2 via:
 
 ```bash
-cd i use ps5 linux btw-tools
+cd ps5-linux-tools
 chmod +x ./m2_exec.sh
 sudo ./m2_exec.sh
 ```
@@ -247,16 +264,16 @@ In order to always boot Linux from your M.2, you can edit the label at `/boot/ef
 We provide a simple tool that allows you to boost your CPU to 3500Mhz and GPU to 2230MHz as well as changing the fan curve:
 
 ```bash
-cd i use ps5 linux btw-tools
+cd ps5-linux-tools
 sudo ./ps5_control --fan on
 sudo ./ps5_control --boost on
 ```
 
 Always turn on fan when your turn on boost, as this is what the official PS5 OS does.
 
-## Updating i use ps5 linux btw
+## Updating PS5 Arch
 
-For any future i use ps5 linux btw updates, you can download the `.deb` or `.pkg.tar.zst` on your PS5 from [i use ps5 linux btw-patches](https://github.com/i use ps5 linux btw/i use ps5 linux btw-patches/releases) and install them like normal packages.
+For any future PS5 Arch updates, you can download the `.deb` or `.pkg.tar.zst` on your PS5 from [ps5-linux-patches](https://github.com/ps5-linux/ps5-linux-patches/releases) and install them like normal packages.
 
 ## FAQ
 
@@ -310,10 +327,10 @@ Join the discord server from the original devs: [Discord server](https://discord
 
 ## Credits
 
-- [theflow](https://github.com/TheOfficialFloW): [i use ps5 linux btw-loader](https://github.com/i use ps5 linux btw/i use ps5 linux btw-loader), [i use ps5 linux btw-patches](https://github.com/i use ps5 linux btw/i use ps5 linux btw-patches), [i use ps5 linux btw-tools](https://github.com/i use ps5 linux btw/i use ps5 linux btw-tools)
-- [c0w](https://github.com/c0w-ar): [i use ps5 linux btw-loader](https://github.com/i use ps5 linux btw/i use ps5 linux btw-loader)
-- [resulknad](https://github.com/resulknad): [i use ps5 linux btw-image](https://github.com/i use ps5 linux btw/i use ps5 linux btw-image)
-- [rmuxnet](https://github.com/rmuxnet): [ps5 ethernet driver](https://github.com/i use ps5 linux btw/i use ps5 linux btw-patches/commit/643e214d7bd37f292045fc0dbb821e421f7a3e47)
+- [theflow](https://github.com/TheOfficialFloW): [ps5-linux-loader](https://github.com/ps5-linux/ps5-linux-loader), [ps5-linux-patches](https://github.com/ps5-linux/-linux-patches), [ps5-linux-tools](https://github.com/ps5-linux/ps5-linux-tools)
+- [c0w](https://github.com/c0w-ar): [ps5-linux-loader](https://github.com/ps5-linux/ps5-linux-loader)
+- [resulknad](https://github.com/resulknad): [ps5-linux-image](https://github.com/ps5-linux/ps5-linux-image)
+- [rmuxnet](https://github.com/rmuxnet): [ps5 ethernet driver](https://github.com/ps5-linux/ps5-linux-patches/commit/643e214d7bd37f292045fc0dbb821e421f7a3e47)
 - [fail0verflow](https://github.com/fail0verflow): [prosperous](https://github.com/fail0verflow/prosperous)
 - [flatz](https://github.com/flatz): [HV exploit](https://gist.github.com/flatz/620ddda6d64acca6d1c990dc3080ac0e)
 - [cragson](https://github.com/cragson): [HV expoit implementation](https://github.com/cragson/ps5-hen)
